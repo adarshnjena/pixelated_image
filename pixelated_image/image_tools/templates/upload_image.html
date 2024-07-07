@@ -1,0 +1,53 @@
+<!-- upload_image.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Upload Image</title>
+  </head>
+  <body>
+    <h2>Upload Image</h2>
+    <form
+      action="{% url 'process_image_api' %}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <input type="file" name="image" id="imageUpload" />
+      <input type="submit" value="Upload Image" id="processImage" />
+    </form>
+
+    <div id="loading" style="display: none">Uploading...</div>
+    <div id="error" style="display: none; color: red"></div>
+
+    <script>
+      $(document).ready(function () {
+        $("#processImage").click(function (event) {
+          event.preventDefault();
+
+          const formData = new FormData();
+          formData.append("image", $("#imageUpload")[0].files[0]);
+
+          $.ajax({
+            url: '{% url "process_image_api" %}',
+            type: "POST",
+            headers: {
+              "X-CSRFToken": "{{ csrf_token }}", // Include CSRF token here
+            },
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+              // Handle success response
+            },
+            error: function (xhr, status, error) {
+              // Handle error response
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
