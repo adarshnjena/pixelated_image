@@ -6,7 +6,7 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('image_tools/', include('image_tools.urls')),
+    path('', include('image_tools.urls')),
     path('admin/', admin.site.urls),
 ]
 
